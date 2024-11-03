@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랜덤 숫자 뽑기</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .result {
+            font-size: 2em;
+            margin: 20px 0;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>랜덤 숫자 뽑기</h1>
+        <div class="result" id="result">여기에 숫자가 표시됩니다.</div>
+        <button class="button" onclick="drawNumber()">숫자 뽑기</button>
+    </div>
+
+    <script>
+        const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const probabilities = [32.236, 40.604, 11.522, 5.979, 4.763, 2.415, 1.436, 0.702, 0.298, 0.04];
+        
+        // 확률을 누적 확률로 변환
+        const cumulativeProbabilities = [];
+        let cumulativeSum = 0;
+
+        for (let i = 0; i < probabilities.length; i++) {
+            cumulativeSum += probabilities[i];
+            cumulativeProbabilities.push(cumulativeSum);
+        }
+
+        // 랜덤 숫자를 뽑는 함수
+        function drawNumber() {
+            const random = Math.random() * 100;  // 0부터 100 사이의 난수를 생성
+            let selectedNumber;
+
+            for (let i = 0; i < cumulativeProbabilities.length; i++) {
+                if (random < cumulativeProbabilities[i]) {
+                    selectedNumber = numbers[i];
+                    break;
+                }
+            }
+
+            // 결과를 화면에 표시
+            document.getElementById("result").textContent = `랜덤 숫자: ${selectedNumber}`;
+        }
+    </script>
+</body>
+</html>
